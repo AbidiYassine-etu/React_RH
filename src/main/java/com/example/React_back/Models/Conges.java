@@ -27,6 +27,6 @@ public class Conges {
     private Employée employee;
 
     @ManyToOne
-    @JoinColumn(name = "rh_id")
+    @JoinColumn(name = "rhid")
     private Admin_RH adminRH;
 }
