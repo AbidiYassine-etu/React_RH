@@ -24,7 +24,7 @@ public class Conges {
 
     @ManyToOne
     @JoinColumn(name = "employée_id")
-    private Employée employee;
+    private Employee employee;
 
     @ManyToOne
     @JoinColumn(name = "rh_id")

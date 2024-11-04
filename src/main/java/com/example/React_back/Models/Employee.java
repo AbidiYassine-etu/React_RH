@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class Employee extends User{
+
     @OneToMany
     @JoinColumn(name = "conges")
     private List<Conges> congesList;
