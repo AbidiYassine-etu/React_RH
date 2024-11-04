@@ -20,7 +20,11 @@ public class User {
     private Long id;
     private String nom;
     private String prenom;
+    @Column(unique = true)
     private String email;
+    private String department;
     private String password;
     private String adresse;
+    @Enumerated
+    private Roles role;
 }
