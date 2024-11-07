@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name="congés")
+@Table(name="conges")
 public class Conges {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class Conges {
     private boolean payant;
 
     @ManyToOne
-    @JoinColumn(name = "employée_id")
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @ManyToOne

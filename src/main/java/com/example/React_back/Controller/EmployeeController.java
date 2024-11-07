@@ -47,13 +47,12 @@ public class EmployeeController {
         return employeeService.updateEmp(employee);
     }
 
-    // Delete an employee by ID
     @DeleteMapping("/deleteEmp/{id}")
     public void deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmp(id);
     }
 
-    @PostMapping("/login")
+    /*@PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody EmployeeController.LoginRequest loginRequest) {
         try {
             String token = employeeService.login(loginRequest.getEmail(), loginRequest.getPassword());
@@ -89,6 +88,6 @@ public class EmployeeController {
         public String getToken() {
             return token;
         }
-    }
+    }*/
 
 }

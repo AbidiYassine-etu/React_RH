@@ -23,26 +23,23 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String login(String email, String rawPassword) {
-        // Check if the email exists
+ /*   public String login(String email, String rawPassword) {
         Employee emp = employeeRepository.findByEmail(email);
 
         if (emp == null) {
             throw new RuntimeException("Invalid email or password");
         }
 
-        // Verify the password
         if (!passwordEncoder.matches(rawPassword, emp.getPassword())) {
             throw new RuntimeException("Invalid email or password");
         }
 
-        // If email and password are valid, generate and return the JWT token
         return tokenProvider.generateToken(emp.getEmail());
     }
 
     public boolean validateToken(String token, Employee employee) {
         return tokenProvider.validateToken(token, employee.getEmail());
-    }
+    }*/
 
     @Override
     public Employee findEmpByID(Long id) {

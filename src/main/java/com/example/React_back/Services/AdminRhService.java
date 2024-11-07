@@ -12,4 +12,5 @@ public interface AdminRhService {
     Admin_RH updateAdmin(Long id ,Admin_RH admin);
     void deleteAdmin(Long id);
     List<Admin_RH> findAllAdmins();
+    Admin_RH findByEmail(String email);
 }
