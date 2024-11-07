@@ -22,26 +22,28 @@ public class AdminRHServiceImpl implements AdminRhService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String login(String email, String rawPassword) {
-        // Check if the email exists
+    @Override
+    public Admin_RH findByEmail(String email) {
+        return adminRHRepository.findByEmail(email);
+    }
+
+    /*public String login(String email, String rawPassword) {
         Admin_RH adminRH = adminRHRepository.findByEmail(email);
 
         if (adminRH == null) {
-            throw new RuntimeException("Invalid email or password"); // Throw custom exception for better handling
+            throw new RuntimeException("Invalid email or password");
         }
 
-        // Verify the password
         if (!passwordEncoder.matches(rawPassword, adminRH.getPassword())) {
             throw new RuntimeException("Invalid email or password");
         }
 
-        // If email and password are valid, generate and return the JWT token
         return tokenProvider.generateToken(adminRH.getEmail());
     }
 
     public boolean validateToken(String token, Admin_RH adminRH) {
         return tokenProvider.validateToken(token, adminRH.getEmail());
-    }
+    }*/
 
     @Override
     public Admin_RH findAdminById(Long id) {

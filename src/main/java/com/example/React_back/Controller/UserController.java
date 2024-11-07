@@ -1,6 +1,8 @@
 package com.example.React_back.Controller;
 
+import com.example.React_back.DTO.JwtResponse;
 import com.example.React_back.Models.User;
+import com.example.React_back.Services.Impl.UserServicesImpl;
 import com.example.React_back.Services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +16,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserServices userServices;
+    private UserServicesImpl userServices;
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -53,4 +55,15 @@ public class UserController {
         userServices.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User loginRequest) {
+        try {
+            String token = userServices.login(loginRequest.getEmail(), loginRequest.getPassword(), loginRequest.getRole());
+            return ResponseEntity.ok(new JwtResponse(token));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
 }
