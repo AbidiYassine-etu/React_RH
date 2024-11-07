@@ -1,5 +1,7 @@
 package com.example.React_back.Models;
 
+import java.io.ObjectInputFilter.Status;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name="congés")
+@Table(name="conges")
 public class Conges {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +23,11 @@ public class Conges {
     private String date_Fin;
     private int nbr_jour_Restant;
     private boolean payant;
+    @Enumerated
+    private Status statut;
 
     @ManyToOne
-    @JoinColumn(name = "employée_id")
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @ManyToOne
