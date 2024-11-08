@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/feuille-temps")  // Endpoint de base pour les feuilles de temps
+@RequestMapping("/feuille-temps")
 public class FeuilleTempsController {
 
     @Autowired
