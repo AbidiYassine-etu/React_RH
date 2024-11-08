@@ -28,5 +28,5 @@ public class Feuille_Temps {
 
     @OneToOne
     @JoinColumn(name = "employee_id")
-    private Employee employée_id;
+    private Employee employee_id;
 }

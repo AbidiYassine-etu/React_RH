@@ -1,5 +1,7 @@
 package com.example.React_back.Models;
 
+import java.io.ObjectInputFilter.Status;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +23,8 @@ public class Conges {
     private String date_Fin;
     private int nbr_jour_Restant;
     private boolean payant;
+    @Enumerated
+    private Status statut;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")

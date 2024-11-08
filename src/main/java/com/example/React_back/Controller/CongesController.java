@@ -1,5 +1,4 @@
 package com.example.React_back.Controller;
-
 import com.example.React_back.Models.Conges;
 import com.example.React_back.Services.CongesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,4 +52,5 @@ public class CongesController {
         congesService.deleteConges(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }
