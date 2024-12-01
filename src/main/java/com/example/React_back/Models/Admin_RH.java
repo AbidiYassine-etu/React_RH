@@ -27,4 +27,7 @@ public class Admin_RH extends User{
     @OneToMany
     @JoinColumn(name = "conges")
     private List<Conges> conges;
+
+
+
 }

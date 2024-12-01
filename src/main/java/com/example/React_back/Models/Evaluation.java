@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "evaluation" )
+@Table(name = "évaluation" )
 public class Evaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +23,8 @@ public class Evaluation {
     private String commantaire;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @JoinColumn(name = "employée_id")
+    private Employée employee;
 
     @ManyToOne
     @JoinColumn(name = "rh_id")

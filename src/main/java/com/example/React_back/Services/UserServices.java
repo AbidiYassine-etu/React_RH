@@ -10,4 +10,6 @@ public interface UserServices {
     User updateUser(User user);
     void deleteUser(Long id);
     List<User> findAllUsers(); // Ajoute cette méthode pour récupérer tous les utilisateurs
+
+    User findByEmail(String username);
 }
