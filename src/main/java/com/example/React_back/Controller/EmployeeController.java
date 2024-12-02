@@ -47,12 +47,13 @@ public class EmployeeController {
         return employeeService.updateEmp(employee);
     }
 
+    // Delete an employee by ID
     @DeleteMapping("/deleteEmp/{id}")
     public void deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmp(id);
     }
 
-    /*@PostMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody EmployeeController.LoginRequest loginRequest) {
         try {
             String token = employeeService.login(loginRequest.getEmail(), loginRequest.getPassword());
@@ -88,6 +89,21 @@ public class EmployeeController {
         public String getToken() {
             return token;
         }
-    }*/
+    }
+    //@GetMapping("/employees/me")
+    //public ResponseEntity<Employee> getPersonalInfo(Authentication authentication) {
+       // String username = authentication.getName(); // ou autre identifiant de l'utilisateur connecté
+       // Employee employee = employeeService.findByEmail(username); // Par exemple, si tu utilises un email pour identifier l'utilisateur
+       // return ResponseEntity.ok(employee); //
 
+
+@GetMapping("/employees/me")
+public ResponseEntity<Employee> getPersonalInfo() {
+    // Simulation d'un employé connecté (remplace l'ID par celui d'un employé existant dans ta base)
+    Employee employee = employeeService.findEmpByID(1L); // Exemple avec un ID fixe
+    return ResponseEntity.ok(employee);
 }
+}
+
+
+

@@ -48,7 +48,7 @@ public class AdminRHController {
         return ResponseEntity.noContent().build();
     }
 
-    /*@PostMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
             String token = adminRHService.login(loginRequest.getEmail(), loginRequest.getPassword());
@@ -84,6 +84,6 @@ public class AdminRHController {
         public String getToken() {
             return token;
         }
-    }*/
+    }
 
 }

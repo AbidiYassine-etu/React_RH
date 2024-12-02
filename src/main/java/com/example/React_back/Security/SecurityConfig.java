@@ -10,10 +10,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -26,23 +26,18 @@ public class SecurityConfig {
     @Autowired
     private EncoderConfig passwordConfigEncoder;
 
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**","/users/login","conges/**","evaluations/**","/feuille-temps/**").permitAll()
-                        .requestMatchers("/employee/**").hasAnyRole("EMPLOYEE","admin","ADMIN_RH")
-                        .requestMatchers("/admin_rh/**").hasAnyRole("ADMIN_RH","admin")
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**","/employee/login","/rh/login","/conges/**").permitAll()
+                        .requestMatchers("/employee/**").hasAnyRole("employee","admin","rh")
+                        .requestMatchers("/admin_rh/**").hasAnyRole("rh","admin")
                         .anyRequest().authenticated())
                 .formLogin(withDefaults())
-                .httpBasic(withDefaults())
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
+                .httpBasic(withDefaults());
         return http.build();
     }
 
@@ -50,12 +45,12 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(List.of("http://localhost:4000"));
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:4000"));  // Adjust to match your frontend domain
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
         corsConfiguration.setExposedHeaders(List.of("Authorization"));
-        corsConfiguration.setMaxAge(3600L);
+        corsConfiguration.setMaxAge(3600L);  // Cache CORS configuration for 1 hour
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);

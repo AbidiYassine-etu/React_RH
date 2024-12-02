@@ -7,10 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/feuille-temps")
+@RequestMapping("/api/feuille-temps")
 public class FeuilleTempsController {
 
     @Autowired
@@ -18,39 +19,80 @@ public class FeuilleTempsController {
 
     @GetMapping
     public List<Feuille_Temps> getAllFeuilles() {
-        return feuilleTempsService.findAllFeuilles();  // Récupérer toutes les feuilles de temps
+        return feuilleTempsService.findAllFeuilles();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Feuille_Temps> getFeuilleById(@PathVariable int id) {
         Feuille_Temps feuille = feuilleTempsService.findFeuilleByID(id);
         if (feuille != null) {
-            return new ResponseEntity<>(feuille, HttpStatus.OK);  // Retourner la feuille trouvée
+            return new ResponseEntity<>(feuille, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // Retourner 404 si pas trouvée
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
     public ResponseEntity<Feuille_Temps> createFeuille(@RequestBody Feuille_Temps feuille) {
         Feuille_Temps createdFeuille = feuilleTempsService.addFeuille(feuille);
-        return new ResponseEntity<>(createdFeuille, HttpStatus.CREATED);  // Retourner 201 pour une création réussie
+        return new ResponseEntity<>(createdFeuille, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Feuille_Temps> updateFeuille(@PathVariable int id, @RequestBody Feuille_Temps feuille) {
-        feuille.setId(id);  // Mettre à jour l'ID de la feuille
-        Feuille_Temps updatedFeuille = feuilleTempsService.updateFeuille(feuille);
-        if (updatedFeuille != null) {
-            return new ResponseEntity<>(updatedFeuille, HttpStatus.OK);  // Retourner la feuille mise à jour
+    @PutMapping("/{id}/heures")
+    public ResponseEntity<Feuille_Temps> updateHeuresTravaillées(
+            @PathVariable int id,
+            @RequestParam String heureDebut,
+            @RequestParam String heureFin
+    ) {
+        try {
+            LocalTime debut = LocalTime.parse(heureDebut);
+            LocalTime fin = LocalTime.parse(heureFin);
+
+            Feuille_Temps updatedFeuille = feuilleTempsService.updateHeuresTravaillées(id, debut, fin);
+            if (updatedFeuille != null) {
+                return new ResponseEntity<>(updatedFeuille, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/{id}/valider")
+    public ResponseEntity<Feuille_Temps> validerFeuille(@PathVariable int id) {
+        Feuille_Temps validatedFeuille = feuilleTempsService.validerFeuille(id);
+        if (validatedFeuille != null) {
+            return new ResponseEntity<>(validatedFeuille, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // Retourner 404 si pas trouvée
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/{id}/corriger")
+    public ResponseEntity<Feuille_Temps> corrigerFeuille(
+            @PathVariable int id,
+            @RequestParam String heureDebut,
+            @RequestParam String heureFin
+    ) {
+        try {
+            LocalTime debut = LocalTime.parse(heureDebut);
+            LocalTime fin = LocalTime.parse(heureFin);
+
+            Feuille_Temps correctedFeuille = feuilleTempsService.corrigerHeures(id, debut, fin);
+            if (correctedFeuille != null) {
+                return new ResponseEntity<>(correctedFeuille, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFeuille(@PathVariable int id) {
-        feuilleTempsService.deleteFeuille(id);  // Supprimer la feuille par ID
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);  // Retourner 204 pour une suppression réussie
+        feuilleTempsService.deleteFeuille(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

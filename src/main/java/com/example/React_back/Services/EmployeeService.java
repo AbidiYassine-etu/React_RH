@@ -10,4 +10,9 @@ public interface EmployeeService {
     Employee updateEmp(Employee user);
     void deleteEmp(Long id);
     List<Employee> findAllEmp();
+    Employee findByEmail(String email); // Déclaration de la méthode de recherche
+   
+
+
 }
+
