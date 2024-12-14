@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.time.LocalDate;
+
 
 @Entity
 @AllArgsConstructor
@@ -18,15 +20,14 @@ public class Feuille_Temps {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String date_Feuille;
-    private String sujet_Feuille;
-    private String commantaire_feuille;
+    private LocalDate date;
+    private double hoursWorked;
+    private String taskDescription;
 
-    @ManyToOne
-    @JoinColumn(name = "rh_id")
-    private Admin_RH Admin_rh;
+    @Enumerated(EnumType.STRING)
+    private status status;
 
-    @OneToOne
-    @JoinColumn(name = "employée_id")
-    private Employée employée_id;
+
+    @Column(name = "employee_id")
+    private int employeeId;
 }

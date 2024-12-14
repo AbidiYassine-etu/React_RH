@@ -53,42 +53,4 @@ public class EmployeeController {
         employeeService.deleteEmp(id);
     }
 
-    /*@PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody EmployeeController.LoginRequest loginRequest) {
-        try {
-            String token = employeeService.login(loginRequest.getEmail(), loginRequest.getPassword());
-            return ResponseEntity.ok(new EmployeeController.JwtResponse(token));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        }
-    }
-
-    public static class LoginRequest {
-        private String email;
-        private String password;
-
-        public String getEmail() {
-            return email;
-        }
-        public void setEmail(String email) {
-            this.email = email;
-        }
-        public String getPassword() {
-            return password;
-        }
-        public void setPassword(String password) {
-            this.password = password;
-        }
-    }
-
-    public static class JwtResponse {
-        private String token;
-        public JwtResponse(String token) {
-            this.token = token;
-        }
-        public String getToken() {
-            return token;
-        }
-    }*/
-
 }

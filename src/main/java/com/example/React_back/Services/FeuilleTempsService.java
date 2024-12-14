@@ -1,5 +1,6 @@
 package com.example.React_back.Services;
 
+import com.example.React_back.Models.Employee;
 import com.example.React_back.Models.Feuille_Temps;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public interface FeuilleTempsService {
     Feuille_Temps updateFeuille(Feuille_Temps feuille);
     void deleteFeuille(int id);
     List<Feuille_Temps> findAllFeuilles();
+    List<Feuille_Temps> findByEmployeeId( int employee);
 }

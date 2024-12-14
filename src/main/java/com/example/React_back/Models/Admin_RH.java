@@ -17,16 +17,9 @@ import java.util.List;
 public class Admin_RH extends User{
 
     @OneToMany
-    @JoinColumn(name = "feuille_id")
-    private List<Feuille_Temps> feuille;
-
-    @OneToMany
     @JoinColumn(name = "evaluation_id")
     private List<Evaluation> evaluation;
 
-    @OneToMany
-    @JoinColumn(name = "conges")
-    private List<Conges> conges;
 
 
 

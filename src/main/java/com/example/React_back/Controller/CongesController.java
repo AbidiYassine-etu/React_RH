@@ -53,4 +53,9 @@ public class CongesController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/getCongesByEmployee/{id}")
+    public List<Conges> getCongesByEmployee(@PathVariable int id) {
+        return congesService.findByEmployeeId(id);
+    }
+
 }

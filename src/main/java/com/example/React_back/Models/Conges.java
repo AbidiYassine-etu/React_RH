@@ -19,14 +19,19 @@ public class Conges {
 
     private String date_Debut;
     private String date_Fin;
-    private int nbr_jour_Restant;
+    private String departement;
+    private int nbr_jour;
     private boolean payant;
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    private Absence type;
+
+    @Enumerated(EnumType.STRING)
+    private status status;
 
     @ManyToOne
-    @JoinColumn(name = "employée_id")
-    private Employée employee;
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 
-    @ManyToOne
-    @JoinColumn(name = "rh_id")
-    private Admin_RH adminRH;
 }

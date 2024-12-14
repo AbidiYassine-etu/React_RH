@@ -25,6 +25,9 @@ public class User {
     private String password;
     private String adresse;
 
+    @Enumerated(EnumType.STRING)
+    private Departments departement;
+
     @Enumerated
     private Roles role;
 }

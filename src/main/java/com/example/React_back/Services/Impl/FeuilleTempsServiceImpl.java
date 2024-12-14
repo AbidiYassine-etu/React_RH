@@ -45,4 +45,9 @@ public class FeuilleTempsServiceImpl implements FeuilleTempsService {
     public List<Feuille_Temps> findAllFeuilles() {
         return feuilleTempsRepository.findAll();
     }
+
+    @Override
+    public List<Feuille_Temps> findByEmployeeId(int employeeId) {
+        return feuilleTempsRepository.findByEmployeeId(employeeId);
+    }
 }

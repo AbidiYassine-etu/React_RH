@@ -45,4 +45,10 @@ public class CongesServiceImpl implements CongesService {
     public List<Conges> findAllConges() {
         return congesRepository.findAll();
     }
+
+    @Override
+    public List<Conges> findByEmployeeId(int employeeId) {
+        return congesRepository.findByEmployeeId(employeeId);
+    }
+
 }

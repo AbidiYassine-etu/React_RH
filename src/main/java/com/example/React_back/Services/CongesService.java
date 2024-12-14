@@ -10,4 +10,5 @@ public interface CongesService {
     Conges updateConges(Conges conge);
     void deleteConges(int id);
     List<Conges> findAllConges();
+    List<Conges> findByEmployeeId(int employeeId);
 }
