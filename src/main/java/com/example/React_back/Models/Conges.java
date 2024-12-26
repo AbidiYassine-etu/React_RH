@@ -23,12 +23,13 @@ public class Conges {
     private int nbr_jour;
     private boolean payant;
     private String description;
+    private boolean validated = false;
 
     @Enumerated(EnumType.STRING)
     private Absence type;
 
     @Enumerated(EnumType.STRING)
-    private status status;
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")

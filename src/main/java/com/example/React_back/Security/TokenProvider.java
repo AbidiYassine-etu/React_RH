@@ -58,4 +58,11 @@ public class TokenProvider {
         final String extractedUsername = getUsernameFromToken(token);
         return (extractedUsername.equals(username) && !isTokenExpired(token));
     }
+
+    // Method to extract email from JWT token
+    public String extractEmail(String token) {
+        Claims claims = getAllClaimsFromToken(token);
+        return claims.getSubject();  // Subject is the email
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.example.React_back.Models;
 
-public enum status {
+public enum Status {
     UNDECIDED,
     ALLOWED,
     REJECTED

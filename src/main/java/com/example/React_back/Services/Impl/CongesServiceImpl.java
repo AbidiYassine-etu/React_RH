@@ -51,4 +51,11 @@ public class CongesServiceImpl implements CongesService {
         return congesRepository.findByEmployeeId(employeeId);
     }
 
+    @Override
+    public List<Conges> getFilteredConges(Long empId, String department, String congesType, String startDate, String endDate) {
+        return List.of();
+    }
+
+
+
 }

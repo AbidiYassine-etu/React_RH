@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 
 @Entity
@@ -21,11 +22,16 @@ public class Feuille_Temps {
     private int id;
 
     private LocalDate date;
-    private double hoursWorked;
+    @Enumerated(EnumType.STRING)
+    private  Work Time;
     private String taskDescription;
+    private LocalTime startTime;
+    private LocalTime endTime;
+
+    private boolean validated = false;
 
     @Enumerated(EnumType.STRING)
-    private status status;
+    private Status status;
 
 
     @Column(name = "employee_id")

@@ -45,6 +45,7 @@ public class EmployeeController {
     @PutMapping("/updateEmp/{id}")
     public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
         employee.setId(id);
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         return employeeService.updateEmp(employee);
     }
 

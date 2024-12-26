@@ -13,6 +13,8 @@ import java.util.List;
 @Setter
 public class Employee extends User{
 
+    private int nbr_jours_restant = 21;
+
 
     @OneToMany
     @JoinColumn(name = "conges")
