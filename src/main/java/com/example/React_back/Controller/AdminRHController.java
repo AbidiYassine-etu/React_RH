@@ -54,7 +54,7 @@ public class AdminRHController {
             String token = adminRHService.login(loginRequest.getEmail(), loginRequest.getPassword());
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            return ResponseEntity.Status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
 

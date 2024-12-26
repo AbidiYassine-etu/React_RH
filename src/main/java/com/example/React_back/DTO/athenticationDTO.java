@@ -6,16 +6,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public class athenticationDTO {
-    private String email;
+    private String token;
+    private String role;
 
-    private String password;
-
-    private String fullName;
-
-    public athenticationDTO(String email, String password, String fullName) {
-        this.email = email;
-        this.password = password;
-        this.fullName = fullName;
+    public athenticationDTO(String token, String role) {
+        this.token = token;
+        this.role = role;
     }
-
 }

@@ -13,6 +13,9 @@ import java.util.List;
 @Setter
 public class Employee extends User{
 
+    private int nbr_jours_restant = 21;
+
+
     @OneToMany
     @JoinColumn(name = "conges")
     private List<Conges> congesList;
@@ -21,7 +24,7 @@ public class Employee extends User{
     @JoinColumn(name = "evaluation")
     private List<Evaluation> evaluationList;
 
-    @OneToOne
+    @OneToMany
     @JoinColumn(name = "feuille_temps")
-    private  Feuille_Temps feuilleTemps;
+    private List<Feuille_Temps> feuilleTemps;
 }

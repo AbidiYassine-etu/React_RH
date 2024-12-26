@@ -1,7 +1,9 @@
 package com.example.React_back.Security;
 
 import com.example.React_back.Models.Admin_RH;
+import com.example.React_back.Models.User;
 import com.example.React_back.Services.AdminRhService;
+import com.example.React_back.Services.Impl.UserServicesImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,10 +23,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
     private final AdminRhService adminRHService;
+    private final UserServicesImpl userServicesImpl;
 
-    public JwtRequestFilter(TokenProvider tokenProvider, AdminRhService adminRHService) {
+    public JwtRequestFilter(TokenProvider tokenProvider, AdminRhService adminRHService, UserServicesImpl userServicesImpl) {
         this.tokenProvider = tokenProvider;
         this.adminRHService = adminRHService;
+        this.userServicesImpl = userServicesImpl;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             String username = tokenProvider.getUsernameFromToken(token);
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                Admin_RH user = adminRHService.findByEmail(username);
+                User user = userServicesImpl.findByEmail(username);
 
                 if (user != null && tokenProvider.validateToken(token, user.getEmail())) {
                     SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole().name());

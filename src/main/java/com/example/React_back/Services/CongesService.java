@@ -10,4 +10,7 @@ public interface CongesService {
     Conges updateConges(Conges conge);
     void deleteConges(int id);
     List<Conges> findAllConges();
+    List<Conges> findByEmployeeId(int employeeId);
+
+    List<Conges> getFilteredConges(Long empId, String department, String congesType, String startDate, String endDate);
 }

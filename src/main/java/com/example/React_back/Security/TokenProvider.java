@@ -1,5 +1,6 @@
 package com.example.React_back.Security;
 
+import com.example.React_back.Models.User;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,12 @@ public class TokenProvider {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    public String generateToken(String username) {
+    public String generateToken(User user) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(user.getEmail())
+                .claim("role", user.getRole().name())
+                .claim("id", user.getId())
+                .claim("departement", user.getDepartement())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
                 .signWith(SignatureAlgorithm.HS512, secret)
@@ -54,4 +58,11 @@ public class TokenProvider {
         final String extractedUsername = getUsernameFromToken(token);
         return (extractedUsername.equals(username) && !isTokenExpired(token));
     }
+
+    // Method to extract email from JWT token
+    public String extractEmail(String token) {
+        Claims claims = getAllClaimsFromToken(token);
+        return claims.getSubject();  // Subject is the email
+    }
+
 }
