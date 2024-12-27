@@ -9,8 +9,10 @@ import java.util.List;
 
 @Repository
 public interface CongesRepository extends JpaRepository<Conges, Integer> {
-    List<Conges> findByEmployeeId(int employeeId);
+    List<Conges> findByEmployeeId(Long employeeId);
 
 
     List<Conges> findByValidatedFalse();
+
+    void deleteByEmployeeId(Long id);
 }

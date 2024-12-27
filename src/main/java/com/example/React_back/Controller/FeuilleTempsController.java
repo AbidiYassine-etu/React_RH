@@ -1,17 +1,18 @@
 package com.example.React_back.Controller;
 
-import com.example.React_back.Models.Employee;
-import com.example.React_back.Models.Feuille_Temps;
-import com.example.React_back.Models.Status;
+import com.example.React_back.Models.*;
 import com.example.React_back.Repository.EmployeeRepository;
 import com.example.React_back.Services.FeuilleTempsService;
 import com.example.React_back.Services.Impl.EmployeeServiceImpl;
 import com.example.React_back.Services.Impl.NotificationService;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -119,4 +120,51 @@ public class FeuilleTempsController {
         }
         return new ResponseEntity<>(feuilles, HttpStatus.OK);  // Retourner les feuilles de temps de l'employé
     }
+
+
+
+    @GetMapping("/exportFeuilleTemps")
+    public void exportAllConges(HttpServletResponse response) throws IOException {
+        // Fetch all Conges from the database
+        List<Feuille_Temps> feuilleTempsList = feuilleTempsService.findAllFeuilles();
+
+        // Generate the Excel file using the ExcelGenerator class
+        byte[] excelData = ExcelGenerator.generateFeuilleTempsExcel(feuilleTempsList);
+
+        // Set response headers to prompt the download of the Excel file
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=feuilleTemps.xlsx");
+
+        // Write the Excel data to the response output stream
+        try (ServletOutputStream outputStream = response.getOutputStream()) {
+            outputStream.write(excelData);
+            outputStream.flush();  // Ensure all data is written to the output stream
+        }
+    }
+
+    @GetMapping("/exportFeuilleTemps/{employeeId}")
+    public void exportCongesForEmployee(@PathVariable Long employeeId, HttpServletResponse response) throws IOException {
+        // Fetch Conges for the specific employee
+        List<Feuille_Temps> feuilleTempsList = feuilleTempsService.findByEmployeeId(Math.toIntExact(employeeId));
+
+        if (feuilleTempsList.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.getWriter().write("No Presence found for the specified employee.");
+            return;
+        }
+
+        // Generate the Excel file using the ExcelGenerator class
+        byte[] excelData = ExcelGenerator.generateFeuilleTempsExcel(feuilleTempsList);
+
+        // Set response headers to prompt the download of the Excel file
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=feuilleTemps_employee_" + employeeId + ".xlsx");
+
+        // Write the Excel data to the response output stream
+        try (ServletOutputStream outputStream = response.getOutputStream()) {
+            outputStream.write(excelData);
+            outputStream.flush();  // Ensure all data is written to the output stream
+        }
+    }
+
 }

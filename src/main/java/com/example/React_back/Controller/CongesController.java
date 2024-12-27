@@ -5,11 +5,13 @@ import com.example.React_back.Repository.EmployeeRepository;
 import com.example.React_back.Services.CongesService;
 import com.example.React_back.Services.Impl.EmployeeServiceImpl;
 import com.example.React_back.Services.Impl.NotificationService;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -89,11 +91,20 @@ public class CongesController {
 
             Conges savedConges = congesRepository.save(updatedConges);
 
+            // Send notification to the employee in real-time
+            Employee employee = savedConges.getEmployee();
+            if (employee != null) {
+                String notificationMessage = employee.getNom() + ",Your leave request has been updated. Current status: " + savedConges.getStatus();
+                notificationService.createNotificationEmp(employee, notificationMessage);
+            }
+
             return new ResponseEntity<>(savedConges, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
 
 
 
@@ -104,7 +115,7 @@ public class CongesController {
     }
 
     @GetMapping("/getCongesByEmployee/{id}")
-    public List<Conges> getCongesByEmployee(@PathVariable int id) {
+    public List<Conges> getCongesByEmployee(@PathVariable Long id) {
         return congesService.findByEmployeeId(id);
     }
 
@@ -120,7 +131,37 @@ public class CongesController {
         // Set response headers to prompt the download of the Excel file
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=conges.xlsx");
-        response.getOutputStream().write(excelData);
+
+        // Write the Excel data to the response output stream
+        try (ServletOutputStream outputStream = response.getOutputStream()) {
+            outputStream.write(excelData);
+            outputStream.flush();  // Ensure all data is written to the output stream
+        }
+    }
+
+    @GetMapping("/exportConges/{employeeId}")
+    public void exportCongesForEmployee(@PathVariable Long employeeId, HttpServletResponse response) throws IOException {
+        // Fetch Conges for the specific employee
+        List<Conges> congesList = congesService.findCongesByEmployeeId(employeeId);
+
+        if (congesList.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.getWriter().write("No Congés found for the specified employee.");
+            return;
+        }
+
+        // Generate the Excel file using the ExcelGenerator class
+        byte[] excelData = ExcelGenerator.generateCongesExcel(congesList);
+
+        // Set response headers to prompt the download of the Excel file
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=conges_employee_" + employeeId + ".xlsx");
+
+        // Write the Excel data to the response output stream
+        try (ServletOutputStream outputStream = response.getOutputStream()) {
+            outputStream.write(excelData);
+            outputStream.flush();  // Ensure all data is written to the output stream
+        }
     }
 
 

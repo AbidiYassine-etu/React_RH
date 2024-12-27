@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface EvaluationService {
     Evaluation findEvaluationByID(int id);
-    Evaluation addEvaluation(Evaluation evaluation);
+    Evaluation addEvaluation(Long employeeId, Long adminRHId, Evaluation evaluation); // Adjusted method signature
     Evaluation updateEvaluation(Evaluation evaluation);
     void deleteEvaluation(int id);
     List<Evaluation> findAllEvaluations();
