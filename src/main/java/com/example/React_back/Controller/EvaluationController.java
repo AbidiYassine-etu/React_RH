@@ -2,6 +2,7 @@ package com.example.React_back.Controller;
 
 import com.example.React_back.Models.Evaluation;
 import com.example.React_back.Services.EvaluationService;
+import com.example.React_back.Services.Impl.EvaluationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/evaluations")  // Endpoint de base pour les évaluations
+@RequestMapping("/evaluations")
 public class EvaluationController {
 
     @Autowired
     private EvaluationService evaluationService;
+    @Autowired
+    private EvaluationServiceImpl evaluationServiceImpl;
 
     @GetMapping("/allEvaluations")
     public List<Evaluation> getAllEvaluations() {
@@ -32,9 +35,16 @@ public class EvaluationController {
     }
 
     @PostMapping("/addEvaluation")
-    public ResponseEntity<Evaluation> createEvaluation(@RequestBody Evaluation evaluation) {
-        Evaluation createdEvaluation = evaluationService.addEvaluation(evaluation);
-        return new ResponseEntity<>(createdEvaluation, HttpStatus.CREATED);
+    public ResponseEntity<Evaluation> createEvaluation(
+            @RequestParam Long employeeId,
+            @RequestParam Long adminRHId,
+            @RequestBody Evaluation evaluation) {
+        Evaluation createdEvaluation = evaluationService.addEvaluation(employeeId, adminRHId, evaluation);
+        if (createdEvaluation != null) {
+            return new ResponseEntity<>(createdEvaluation, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/updateEvaluation/{id}")
@@ -52,5 +62,14 @@ public class EvaluationController {
     public ResponseEntity<Void> deleteEvaluation(@PathVariable int id) {
         evaluationService.deleteEvaluation(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/getEvaluationsByEmployee/{employeeId}")
+    public ResponseEntity<List<Evaluation>> getEvaluationsByEmployee(@PathVariable Long employeeId) {
+        List<Evaluation> evaluations = evaluationServiceImpl.findEvaluationsByEmployee(employeeId);
+        if (evaluations.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(evaluations, HttpStatus.OK);
     }
 }

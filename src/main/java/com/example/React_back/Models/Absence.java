@@ -6,5 +6,6 @@ public enum Absence {
     PATERNITY_LEAVE,
     PARENTAL_LEAVE,
     UNPAID_LEAVE,
-    TRAINING_LEAVE;
+    TRAINING_LEAVE,
+    MATERNITY_LEAVE,
 }

@@ -40,4 +40,16 @@ public class NotificationService {
         // Send notification via WebSocket
         messagingTemplate.convertAndSend("/topic/notifications", notification);
     }
+
+    public void createNotificationEmp(Employee employee, String message) {
+        // Logic to create and save a notification for the employee
+        Notification notification = new Notification();
+        notification.setEmployee(employee);
+        notification.setMessage(message);
+        notificationRepository.save(notification);
+
+        // Send notification via WebSocket
+        messagingTemplate.convertAndSend("/topic/notifications", notification);
+    }
+
 }

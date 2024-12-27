@@ -22,11 +22,11 @@ public class Evaluation {
     private String note_Eval;
     private String commantaire;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employée_id")
     private Employee employee;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "rh_id")
     private Admin_RH adminRH;
 }

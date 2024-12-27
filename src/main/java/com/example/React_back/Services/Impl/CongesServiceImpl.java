@@ -47,7 +47,7 @@ public class CongesServiceImpl implements CongesService {
     }
 
     @Override
-    public List<Conges> findByEmployeeId(int employeeId) {
+    public List<Conges> findByEmployeeId(Long employeeId) {
         return congesRepository.findByEmployeeId(employeeId);
     }
 
@@ -56,6 +56,10 @@ public class CongesServiceImpl implements CongesService {
         return List.of();
     }
 
+    @Override
+    public List<Conges> findCongesByEmployeeId(Long employeeId) {
+        return congesRepository.findByEmployeeId(employeeId);
+    }
 
 
 }
